@@ -1,0 +1,7 @@
+{
+  "name": "TDS200_1015",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
