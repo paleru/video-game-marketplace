@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IonModal, IonItem, IonTextarea, IonSpinner, IonChip, IonContent, IonHeader, IonListHeader, IonLabel, IonIcon, IonBadge, IonList, IonPage, IonTitle, IonToolbar, IonBackButton, IonButtons, IonButton, IonCard, IonCardSubtitle, IonCardTitle, IonCardHeader, IonCardContent, onIonViewDidEnter } from '@ionic/vue';
+import { IonChip, IonContent, IonHeader, IonListHeader, IonLabel, IonIcon, IonBadge, IonList, IonPage, IonTitle, IonToolbar, IonBackButton, IonButtons, IonButton, IonCard, IonCardSubtitle, IonCardTitle, IonCardHeader, IonCardContent, onIonViewDidEnter } from '@ionic/vue';
 import { useRoute } from 'vue-router';
 import { ref } from 'vue';
 

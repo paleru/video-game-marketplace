@@ -10,7 +10,7 @@ const router = useRouter();
 const inRegisterMode = ref(false);
 
 const userDetails = ref({
-    userName: '',
+    firstName: '',
     email: '',
     password: ''
 });
@@ -29,7 +29,7 @@ const login = async () => {
 
 const register = async () => {
     try {
-        const wasRegistered = await authService.register(userDetails.value.userName, userDetails.value.email, userDetails.value.password)
+        const wasRegistered = await authService.register(userDetails.value.firstName, userDetails.value.email, userDetails.value.password)
         await login();
         /* if (wasRegistered) {
             await login();
@@ -64,11 +64,11 @@ const register = async () => {
 
                 <ion-item v-if="inRegisterMode">
                     <ion-label class="label-mild" position="floating">Fornavn</ion-label>
-                    <ion-input v-model="userDetails.userName" type="text"></ion-input>
+                    <ion-input v-model="userDetails.firstName" type="text"></ion-input>
                 </ion-item>
 
                 <ion-item>
-                    <ion-label class="label-mild" position="floating">Email</ion-label>
+                    <ion-label class="label-mild" position="floating">E-post</ion-label>
                     <ion-input type="email" v-model="userDetails.email"></ion-input>
                 </ion-item>
 
