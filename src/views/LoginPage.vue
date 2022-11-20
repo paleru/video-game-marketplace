@@ -6,6 +6,7 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
+/*states */
 const inRegisterMode = ref(false);
 
 const userDetails = ref({
@@ -14,6 +15,7 @@ const userDetails = ref({
     password: ''
 });
 
+/*Login-function, function from directus.service*/
 const login = async () => {
     try {
 
@@ -45,10 +47,10 @@ const register = async () => {
             <ion-toolbar>
                 <ion-segment value="login" @ion-change="inRegisterMode = !inRegisterMode">
                     <ion-segment-button value="login">
-                        Login
+                        Innlogging
                     </ion-segment-button>
                     <ion-segment-button value="signup">
-                        Sign up
+                        Ny Bruker?
                     </ion-segment-button>
                 </ion-segment>
             </ion-toolbar>

@@ -7,6 +7,7 @@ import { ref } from 'vue';
 const route = useRoute();
 const { id } = route.params;
 
+/* Dummy data */
 const videoGame = ref({
     id: 1,
     title: "Disco Elysium",

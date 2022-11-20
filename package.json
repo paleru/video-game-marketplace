@@ -11,11 +11,13 @@
   },
   "dependencies": {
     "@capacitor/app": "4.1.1",
+    "@capacitor/camera": "^4.1.4",
     "@capacitor/core": "4.5.0",
     "@capacitor/haptics": "4.1.0",
     "@capacitor/keyboard": "4.1.0",
     "@capacitor/status-bar": "4.1.0",
     "@directus/sdk": "^10.3.0",
+    "@ionic/pwa-elements": "^3.1.1",
     "@ionic/vue": "^6.0.0",
     "@ionic/vue-router": "^6.0.0",
     "core-js": "^3.6.5",
