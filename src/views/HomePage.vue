@@ -2,7 +2,7 @@
 import { IonContent, IonLabel, IonChip, IonSelect, IonSelectOption, IonRadioGroup, IonRadio, IonInput, IonTextarea, IonModal, IonItem, IonHeader, IonButton, IonButtons, IonPage, IonTitle, IonToolbar, IonCardHeader, IonCardContent, IonCard, IonCardSubtitle, IonCardTitle } from '@ionic/vue';
 import { ref } from 'vue';
 
-/* states */
+/* states for user input*/
 const newVideoGame = ref({
   title: "",
   description: "",
@@ -11,6 +11,7 @@ const newVideoGame = ref({
   condition: "",
 });
 
+/* modal state */
 const isModalOpen = ref(false);
 
 const videoGames = ref([

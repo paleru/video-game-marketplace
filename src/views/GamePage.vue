@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IonModal, IonItem, IonTextarea, IonSpinner, IonContent, IonHeader, IonListHeader, IonLabel, IonIcon, IonBadge, IonList, IonPage, IonTitle, IonToolbar, IonBackButton, IonButtons, IonButton, IonCard, IonCardSubtitle, IonCardTitle, IonCardHeader, IonCardContent, onIonViewDidEnter } from '@ionic/vue';
+import { IonModal, IonItem, IonTextarea, IonSpinner, IonChip, IonContent, IonHeader, IonListHeader, IonLabel, IonIcon, IonBadge, IonList, IonPage, IonTitle, IonToolbar, IonBackButton, IonButtons, IonButton, IonCard, IonCardSubtitle, IonCardTitle, IonCardHeader, IonCardContent, onIonViewDidEnter } from '@ionic/vue';
 import { useRoute } from 'vue-router';
 import { ref } from 'vue';
 
@@ -44,12 +44,13 @@ const videoGame = ref({
                     <ion-card-subtitle>Description</ion-card-subtitle>
                 </ion-card-header>
                 <ion-card-content>
-                    {{ videoGame.description}}
+                    {{ videoGame.description }}
                     <ion-card-subtitle>{{ videoGame.price }},-</ion-card-subtitle>
                 </ion-card-content>
-                <ion-card-subtitle>{{ videoGame.platform }} {{ videoGame.condition}}</ion-card-subtitle>
+                <ion-chip>{{ videoGame.condition }}</ion-chip>
+                <ion-chip>{{ videoGame.platform }}</ion-chip>
             </ion-card>
-        
+
         </ion-content>
 
     </ion-page>
