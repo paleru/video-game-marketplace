@@ -1,26 +1,49 @@
 <script setup lang="ts">
-import { IonChip, IonContent, IonHeader, IonListHeader, IonLabel, IonIcon, IonBadge, IonList, IonPage, IonTitle, IonToolbar, IonBackButton, IonButtons, IonButton, IonCard, IonCardSubtitle, IonCardTitle, IonCardHeader, IonCardContent, onIonViewDidEnter } from '@ionic/vue';
-import { useRoute } from 'vue-router';
+import { IonChip, IonContent, IonHeader, IonPage, IonSpinner, IonTitle, IonToolbar, IonBackButton, IonButtons, IonCard, IonCardSubtitle, IonCardHeader, IonCardContent, onIonViewDidEnter} from '@ionic/vue';
+import { useRoute } from 'vue-router'; 
+import { IVideoGame, IVideoGameResponse } from '@/models/VideoGameModels';
 import { ref } from 'vue';
+import { directus } from '@/services/directus.service'
+import VideoGameImageVue from '@/components/VideoGameImage.vue';
 
 /* routes */
-const route = useRoute();
-const { id } = route.params;
+const route = useRoute(); 
+const { id } = route.params; 
 
-/* Dummy data */
-const videoGame = ref({
-    id: 1,
-    title: "Disco Elysium",
-    description: "You're an alcoholic detective trying to solve a murder mystery while regaining your lost memories.",
-    platform: "PS4",
-    price: 499,
-    condition: "New",
-    imageURL: "https://cdn1.epicgames.com/ff52981b1d9947978153c7a7f8bc6d90/offer/EGS_DiscoElysiumTheFinalCut_ZAUM_S6-1200x1600-486d4da970eede7364b9650d63900bad.jpg",
-    location: {
-        latitude: 59.888033,
-        longitude: 10.862266
-    }
+const isLoading = ref(true);
+
+const videoGame = ref<IVideoGame | null>(null)
+
+onIonViewDidEnter(() => {
+    fetchVideoGame();
 })
+
+const fetchVideoGame = async () => {
+  const response = await directus.graphql.items<IVideoGameResponse>(`
+    query {
+      video_games_by_id(id: ${id}) {
+        id,
+        title,
+        description,
+        platform,
+        price,
+        condition,
+        image {
+          id
+        },
+        user_created {
+          first_name
+        }
+      }
+    }
+  `);
+
+  if (response.status === 200 && response.data) {
+    videoGame.value = response.data.video_games_by_id;
+    isLoading.value = false;
+  }
+
+}
 
 </script>
 
@@ -31,14 +54,15 @@ const videoGame = ref({
                 <ion-buttons slot="start">
                     <ion-back-button default-href="/"></ion-back-button>
                 </ion-buttons>
-                <ion-title color="dark">{{ videoGame.title }}</ion-title>
-                <ion-buttons slot="end">
-                </ion-buttons>
+                <ion-title v-if="isLoading">
+                    <ion-spinner></ion-spinner>
+                </ion-title>
+                <ion-title v-if="videoGame" color="dark">{{ videoGame.title }}</ion-title>
             </ion-toolbar>
         </ion-header>
 
-        <ion-content :fullscreen="true">
-            <img :alt="videoGame.title" :src="videoGame.imageURL" />
+        <ion-content :fullscreen="true" v-if="videoGame && !isLoading">
+            <video-game-image-vue :image-id="videoGame.image.id" />
 
             <ion-card>
                 <ion-card-header>

@@ -10,7 +10,6 @@ export const authService = {
     async login(email: string, password: string) {
         return await directus.auth.login({ email, password });
     },
-    /*
     async register(firstName: string, email: string, password: string): Promise<boolean> {
         const createUserResult = await directus.users.createOne({
             first_name: firstName,
@@ -19,9 +18,10 @@ export const authService = {
             role: "d0a26a37-368f-4e12-9492-f8182b604080"
         });
 
+        /* convert string to boolean to check if register was successful */
         return !!createUserResult?.email;
 
-    }, */
+    },
     async logout() {
         return await directus.auth.logout();
     },

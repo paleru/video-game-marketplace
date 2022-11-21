@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { authService } from '@/services/directus.service';
-import { IonPage, IonButton, IonInput, IonLabel, IonList, IonItem, IonContent, IonHeader, IonSegment, IonSegmentButton, IonTitle, IonToolbar } from '@ionic/vue';
+import { IonPage, IonButton, IonInput, IonLabel, IonList, IonItem, IonContent, IonHeader, IonSegment, IonSegmentButton, IonToolbar } from '@ionic/vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -15,7 +15,7 @@ const userDetails = ref({
     password: ''
 });
 
-/*Login-function, function from directus.service*/
+/*Login-function, from directus.service*/
 const login = async () => {
     try {
 
@@ -29,7 +29,7 @@ const login = async () => {
 
 const register = async () => {
     try {
-        const wasRegistered = await authService.register(userDetails.value.firstName, userDetails.value.email, userDetails.value.password)
+        await authService.register(userDetails.value.firstName, userDetails.value.email, userDetails.value.password)
         await login();
         /* if (wasRegistered) {
             await login();

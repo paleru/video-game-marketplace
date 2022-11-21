@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { directus } from '@/services/directus.service';
-import { IonContent, IonLabel, IonIcon, IonList, IonChip, IonSelect, IonSelectOption, IonRadioGroup, IonRadio, IonInput, IonTextarea, IonModal, IonItem, IonHeader, IonButton, IonButtons, IonPage, IonTitle, IonToolbar, IonCardHeader, IonCardContent, IonCard, IonCardSubtitle, IonCardTitle, onIonViewDidEnter } from '@ionic/vue';
+import { IonContent, IonLabel, IonIcon, IonRefresher, IonRefresherContent, IonList, IonChip, IonSelect, IonSelectOption, IonInput, IonTextarea, IonModal, IonItem, IonHeader, IonButton, IonButtons, IonPage, IonTitle, IonToolbar, IonCardHeader, IonCardContent, IonCard, IonCardSubtitle, IonCardTitle, onIonViewDidEnter } from '@ionic/vue';
+import { IVideoGame, IVideoGamesResponse, INewVideoGame } from '@/models/VideoGameModels';
 import { ref } from 'vue';
 import { cameraOutline, trashOutline } from 'ionicons/icons';
 import { Camera, CameraResultType } from '@capacitor/camera';
-
-const userAccessToken = localStorage.getItem('auth_token');
+import VideoGameCardVue from '@/components/VideoGameCard.vue';
 
 /* states for user input*/
-const newVideoGame = ref({
+const newVideoGame = ref<INewVideoGame>({
   title: "",
   description: "",
   platform: "",
@@ -17,11 +17,21 @@ const newVideoGame = ref({
   image: ""
 });
 
-/* array for videogames, incl. dummy data */
-const videoGames = ref([])
+const videoGames = ref<IVideoGame[]>([])
 
-onIonViewDidEnter(async () => {
-  const response = await directus.graphql.items(`
+onIonViewDidEnter(() => {
+  fetchVideoGames();
+})
+
+/* enables refreshing of page */
+const refreshVideoGamesView = async (event: CustomEvent) => {
+  await fetchVideoGames();
+  event.target.complete();
+}
+
+/* Fetches videogames from directus, called both when entering page and refreshing */
+const fetchVideoGames = async () => {
+  const response = await directus.graphql.items<IVideoGamesResponse>(`
   query {
     video_games {
       id,
@@ -45,7 +55,8 @@ onIonViewDidEnter(async () => {
     videoGames.value = [...response.data.video_games];
     console.log(videoGames.value)
   }
-})
+}
+
 
 /* modal state */
 const isModalOpen = ref(false);
@@ -62,10 +73,10 @@ const addNewGame = async () => {
     imageURL: newVideoGame.value.image
   }) */
 
-  if (!newVideoGame.value.title || !newVideoGame.value.description || !newVideoGame.value.platform || !newVideoGame.value.price || !newVideoGame.value.platform ||!newVideoGame.value.image) {
+  if (!newVideoGame.value.title || !newVideoGame.value.description || !newVideoGame.value.platform || !newVideoGame.value.price || !newVideoGame.value.platform || !newVideoGame.value.image) {
     alert("Vennligst fyll inn all informasjon")
     return;
-  } 
+  }
 
   try {
     const response = await fetch(newVideoGame.value.image);
@@ -79,7 +90,7 @@ const addNewGame = async () => {
       await directus.items('video_games').createOne({
         title: newVideoGame.value.title,
         description: newVideoGame.value.description,
-        platform: newVideoGame.value.platform ,
+        platform: newVideoGame.value.platform,
         price: newVideoGame.value.price,
         condition: newVideoGame.value.condition,
         image: fileUpload.id
@@ -125,27 +136,18 @@ const removeImagePreview = () => {
     </ion-header>
 
     <ion-content :fullscreen="true">
+
+      <ion-refresher slot="fixed" @ionRefresh="refreshVideoGamesView($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Blank</ion-title>
         </ion-toolbar>
       </ion-header>
- 
-      <ion-card v-for="game in videoGames" :key="game.id" :router-link="'/game/' + game.id">
 
-        <ion-card-header>
-          <img :src="`https://n8mifr5t.directus.app/assets/${game.image.id}?access_token=${userAccessToken}`" />
-          <ion-card-subtitle>{{ game.price }},-</ion-card-subtitle>
-          <ion-card-title>{{ game.title }}</ion-card-title>
-        </ion-card-header>
-
-        <ion-card-content>
-          <ion-card-title>{{ game.description }}</ion-card-title>
-          <ion-chip>{{ game.condition }}</ion-chip>
-          <ion-chip>{{ game.platform }}</ion-chip>
-        </ion-card-content>
-
-      </ion-card>
+      <video-game-card-vue v-for="game in videoGames" :key="game.id" :game="game"/>
 
       <ion-modal :is-open="isModalOpen" :initial-breakpoint="0.55" :breakpoints="[0, 0.25, 0.55, 0.95]"
         @did-dismiss="isModalOpen = false">
