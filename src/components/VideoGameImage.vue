@@ -6,5 +6,5 @@ defineProps(["imageId"]);
 </script>
 
 <template>
-    <img :src="`https://n8mifr5t.directus.app/assets/${imageId}?access_token=${userAccessToken}`" />
+    <img :src="`https://video-game-marketplace.directus.app/assets/${imageId}?access_token=${userAccessToken}`" />
 </template>

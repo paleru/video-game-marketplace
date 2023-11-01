@@ -7,7 +7,7 @@ defineProps(["game"]);
 </script>
 
 <template>
-    <ion-card :router-link="'/game/' + game.id">
+    <ion-card :router-link="'/game/' + game.id" color="light">
 
         <ion-card-header>
             <video-game-image :image-id="game.image.id" />
@@ -16,10 +16,19 @@ defineProps(["game"]);
         </ion-card-header>
 
         <ion-card-content>
-            <ion-card-title>{{ game.description }}</ion-card-title>
-            <ion-chip>{{ game.condition }}</ion-chip>
-            <ion-chip>{{ game.platform }}</ion-chip>
+            {{ game.description }}
         </ion-card-content>
+
+        <ion-chip >{{ game.condition }}</ion-chip>
+        <ion-chip >{{ game.platform }}</ion-chip>
 
     </ion-card>
 </template>
+
+<style>
+  ion-chip {
+    --background: #000;
+    --color: #ffFF;
+    margin: 2px 5px 10px 15px; 
+  }
+</style>

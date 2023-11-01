@@ -33,7 +33,8 @@ const fetchVideoGame = async () => {
         },
         user_created {
           first_name
-        }
+        },
+        date_created
       }
     }
   `);
@@ -66,7 +67,7 @@ const fetchVideoGame = async () => {
 
             <ion-card>
                 <ion-card-header>
-                    <ion-card-subtitle>Description</ion-card-subtitle>
+                    <ion-card-subtitle>{{ videoGame.date_created }}</ion-card-subtitle>
                 </ion-card-header>
                 <ion-card-content>
                     {{ videoGame.description }}

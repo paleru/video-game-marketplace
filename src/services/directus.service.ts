@@ -1,6 +1,6 @@
 import { Directus } from "@directus/sdk";
 
-export const directus = new Directus("https://n8mifr5t.directus.app", {
+export const directus = new Directus("https://video-game-marketplace.directus.app/", {
     auth: {
         mode: "json",
     },
@@ -15,7 +15,7 @@ export const authService = {
             first_name: firstName,
             email,
             password,
-            role: "d0a26a37-368f-4e12-9492-f8182b604080"
+            role: "4a895809-2391-4733-8b77-8d27ea11ae4c"
         });
 
         /* convert string to boolean to check if register was successful */

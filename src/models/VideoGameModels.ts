@@ -11,6 +11,7 @@ export interface IVideoGame {
   user_created: {
     first_name: string;
   };
+  date_created: string;
 }
 
 export interface IVideoGameResponse {
