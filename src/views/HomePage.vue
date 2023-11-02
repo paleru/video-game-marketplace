@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { directus } from '@/services/directus.service';
-import { IonContent, IonLabel, IonIcon, IonRefresher, IonRefresherContent, IonList, IonChip, IonSelect, IonSelectOption, IonInput, IonTextarea, IonModal, IonItem, IonHeader, IonButton, IonButtons, IonPage, IonTitle, IonToolbar, IonCardHeader, IonCardContent, IonCard, IonCardSubtitle, IonCardTitle, onIonViewDidEnter, IonGrid, IonRow, IonCol } from '@ionic/vue';
+import { IonContent, IonLabel, IonIcon, IonFab, IonFabButton, IonRefresher, IonRefresherContent, IonList, IonChip, IonSelect, IonSelectOption, IonInput, IonTextarea, IonModal, IonItem, IonHeader, IonButton, IonButtons, IonPage, IonTitle, IonToolbar, IonCardHeader, IonCardContent, IonCard, IonCardSubtitle, IonCardTitle, onIonViewDidEnter, IonGrid, IonRow, IonCol } from '@ionic/vue';
 import { IVideoGame, IVideoGamesResponse, INewVideoGame } from '@/models/VideoGameModels';
 import { ref } from 'vue';
-import { cameraOutline, trashOutline } from 'ionicons/icons';
+import { cameraOutline, trashOutline, add } from 'ionicons/icons';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import VideoGameCardVue from '@/components/VideoGameCard.vue';
+import { useRouter } from 'vue-router';
+import { authService } from '@/services/directus.service';
 
 /* states for user input*/
 const newVideoGame = ref<INewVideoGame>({
@@ -22,6 +24,19 @@ const videoGames = ref<IVideoGame[]>([])
 onIonViewDidEnter(() => {
   fetchVideoGames();
 })
+
+const router = useRouter();
+
+const logout = async () => {
+    try {
+
+        await authService.logout();
+        router.replace('/login');
+
+    } catch (error) {
+        console.error(error)
+    }
+}
 
 /* enables refreshing of page */
 const refreshVideoGamesView = async (event: CustomEvent) => {
@@ -127,7 +142,7 @@ const removeImagePreview = () => {
       <ion-toolbar color="primary">
         <ion-title color="light">TDS200 Eksamen</ion-title>
         <ion-buttons slot="end">
-          <ion-button type="button" @click="isModalOpen = true" color="tertiary" fill="solid">Legg ut spill</ion-button>
+          <ion-button type="button" color="tertiary" fill="solid" @click="logout">Logg ut</ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -146,80 +161,87 @@ const removeImagePreview = () => {
 
       <video-game-card-vue v-for="game in videoGames" :key="game.id" :game="game" />
 
-      <ion-modal :is-open="isModalOpen" :initial-breakpoint="0.55" :breakpoints="[0, 0.25, 0.55, 0.95]"
-        @did-dismiss="isModalOpen = false">
-        <ion-content>
+      <ion-fab slot="fixed" horizontal="center" vertical="bottom">
+        <ion-fab-button>
+          <ion-icon :icon="add" @click="isModalOpen = true"></ion-icon>
+        </ion-fab-button>
+      </ion-fab> 
 
-          <ion-grid>
-            <ion-row v-if="newVideoGame.image">
-              <ion-col >
-                <img :src="newVideoGame.image" />
-              </ion-col>
-            </ion-row>
+        <ion-modal :is-open="isModalOpen" :initial-breakpoint="0.55" :breakpoints="[0, 0.25, 0.55, 0.95]"
+          @did-dismiss="isModalOpen = false">
+          <ion-content>
 
-            <ion-row>
-              <ion-col>
-                <ion-button @click="triggerCamera">
-                  Velg bilde
-                  <ion-icon slot="end" :icon="cameraOutline"></ion-icon>
-                </ion-button>
-                <ion-button v-if="newVideoGame.image" @click="removeImagePreview" fill="default"
-                  class="remove-image-preview">
-                  <ion-icon slot="icon-only" :icon="trashOutline" color="danger"></ion-icon>
-                </ion-button>
-              </ion-col>
-            </ion-row>
+            <ion-grid>
+              <ion-row v-if="newVideoGame.image">
+                <ion-col>
+                  <img :src="newVideoGame.image" />
+                </ion-col>
+              </ion-row>
 
-          <ion-row>
-            <ion-col>
-              <ion-list>
-                <ion-item>
-                  <ion-label position="floating">Navn</ion-label>
-                  <ion-input v-model="newVideoGame.title" type="text"></ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-label position="floating">Beskriv spillet ditt</ion-label>
-                  <ion-textarea :auto-grow="true" :maxlength="500" v-model="newVideoGame.description"></ion-textarea>
-                </ion-item>
-                <ion-item>
-                  <ion-label>Pris</ion-label>
-                  <ion-input type="number" v-model.number="newVideoGame.price" placeholder="0000"></ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-select placeholder="Velg plattform" v-model="newVideoGame.platform">
-                    <ion-select-option value="Playstation">Playstation</ion-select-option>
-                    <ion-select-option value="Nintendo">Nintendo</ion-select-option>
-                    <ion-select-option value="Xbox">Xbox</ion-select-option>
-                  </ion-select>
-                </ion-item>
-              </ion-list>
-            </ion-col>
-          </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-button @click="triggerCamera">
+                    Velg bilde
+                    <ion-icon slot="end" :icon="cameraOutline"></ion-icon>
+                  </ion-button>
+                  <ion-button v-if="newVideoGame.image" @click="removeImagePreview" fill="default"
+                    class="remove-image-preview">
+                    <ion-icon slot="icon-only" :icon="trashOutline" color="danger"></ion-icon>
+                  </ion-button>
+                </ion-col>
+              </ion-row>
 
-          <ion-row >
-            <ion-col>
-              <label>
-                <input type="radio" v-model="newVideoGame.condition" value="New" />
-                Nytt
-              </label>
-            </ion-col>
-            <ion-col>
-              <label>
-                <input type="radio" v-model="newVideoGame.condition" value="Used" />
-                Brukt
-              </label>
-            </ion-col>
-          </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-list>
+                    <ion-item>
+                      <ion-label position="floating">Navn</ion-label>
+                      <ion-input v-model="newVideoGame.title" type="text"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label position="floating">Beskriv spillet ditt</ion-label>
+                      <ion-textarea :auto-grow="true" :maxlength="500" v-model="newVideoGame.description"></ion-textarea>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label>Pris</ion-label>
+                      <ion-input type="number" v-model.number="newVideoGame.price" placeholder="0000"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-select placeholder="Velg plattform" v-model="newVideoGame.platform">
+                        <ion-select-option value="Playstation">Playstation</ion-select-option>
+                        <ion-select-option value="Nintendo">Nintendo</ion-select-option>
+                        <ion-select-option value="Xbox">Xbox</ion-select-option>
+                      </ion-select>
+                    </ion-item>
+                  </ion-list>
+                </ion-col>
+              </ion-row>
 
-          <ion-row>
-            <ion-col>
-              <ion-button @click="addNewGame">Legg ut ditt spill</ion-button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-        </ion-content>
-      </ion-modal>
+              <ion-row>
+                <ion-col>
+                  <label>
+                    <input type="radio" v-model="newVideoGame.condition" value="New" />
+                    Nytt
+                  </label>
+                </ion-col>
+                <ion-col>
+                  <label>
+                    <input type="radio" v-model="newVideoGame.condition" value="Used" />
+                    Brukt
+                  </label>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                <ion-col>
+                  <ion-button @click="addNewGame">Legg ut ditt spill</ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-content>
+        </ion-modal>
     </ion-content>
+
   </ion-page>
 </template>
 

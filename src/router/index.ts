@@ -35,6 +35,23 @@ const authenticationRequiredRouteGuard = async () => {
 
 }
 
+const preventLoginRouterGuard = async () => {
+  const userAccessToken = localStorage.getItem("auth_token");
+
+  if (userAccessToken) {
+
+    const loggedInToast = await toastController.create({
+      message: "Du er allered logget inn",
+      duration: 3000,
+      color: "success"
+    });
+
+    await loggedInToast.present();
+
+    return { name: "Home" }
+  }
+}
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -45,7 +62,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/home',
     name: 'Home',
     component: HomePage,
-    //beforeEnter: [authenticationRequiredRouteGuard]
+    beforeEnter: [authenticationRequiredRouteGuard]
   },
   {
     path: '/game/:id',
@@ -56,7 +73,8 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
     name: 'Login',
-    component: LoginPage
+    component: LoginPage,
+    beforeEnter: [preventLoginRouterGuard]
   }
 ]
 
