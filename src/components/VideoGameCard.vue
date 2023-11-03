@@ -7,20 +7,20 @@ defineProps(["game"]);
 </script>
 
 <template>
-    <ion-card :router-link="'/game/' + game.id" color="light">
+    <ion-card color="light">
 
-        <ion-card-header>
+        <ion-card-header :router-link="'/game/' + game.id" >
             <video-game-image :image-id="game.image.id" />
             <ion-card-subtitle>{{ game.price }},-</ion-card-subtitle>
             <ion-card-title>{{ game.title }}</ion-card-title>
         </ion-card-header>
 
-        <ion-card-content>
+        <ion-card-content :router-link="'/game/' + game.id" >
             {{ game.description }}
         </ion-card-content>
 
-        <ion-chip >{{ game.condition }}</ion-chip>
-        <ion-chip >{{ game.platform }}</ion-chip>
+        <ion-chip :router-link="'/condition/' + game.condition">{{ game.condition }}</ion-chip>
+        <ion-chip :router-link="'/platform/' + game.platform">{{ game.platform }}</ion-chip>
 
     </ion-card>
 </template>

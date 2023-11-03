@@ -3,6 +3,7 @@ import { RouteRecordRaw } from 'vue-router';
 import HomePage from '../views/HomePage.vue'
 import GamePage from '../views/GamePage.vue'
 import LoginPage from '../views/LoginPage.vue'
+import SortedGamesPage from '../views/SortedGamesPage.vue'
 import { authService } from '@/services/directus.service';
 import { toastController } from '@ionic/vue';
 
@@ -22,7 +23,7 @@ const authenticationRequiredRouteGuard = async () => {
   if (userAccessTokenExpiresAt < new Date().getTime()) {
     
     const loggedOutToast = await toastController.create({
-      message: "Du har vært inaktiv for lenge og er blitt automatisk logget ut",
+      message: "You have been logged out due to inactivity",
       duration: 3000,
       color: "warning"
     });
@@ -41,7 +42,7 @@ const preventLoginRouterGuard = async () => {
   if (userAccessToken) {
 
     const loggedInToast = await toastController.create({
-      message: "Du er allered logget inn",
+      message: "You are already logged in",
       duration: 3000,
       color: "success"
     });
@@ -75,7 +76,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Login',
     component: LoginPage,
     beforeEnter: [preventLoginRouterGuard]
-  }
+  },
+  {
+    path: '/:filter/:value',
+    name: 'FilteredGames',
+    component: SortedGamesPage,
+  },
 ]
 
 const router = createRouter({

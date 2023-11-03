@@ -25,6 +25,7 @@ onIonViewDidEnter(() => {
   fetchVideoGames();
 })
 
+/* router and logout function */
 const router = useRouter();
 
 const logout = async () => {
@@ -106,7 +107,15 @@ const addNewGame = async () => {
         price: newVideoGame.value.price,
         condition: newVideoGame.value.condition,
         image: fileUpload.id
-      })
+      });
+
+      // empty modal states after game is successfully added
+      newVideoGame.value.title = '';
+      newVideoGame.value.description = '';
+      newVideoGame.value.platform = '';
+      newVideoGame.value.price = 0;
+      newVideoGame.value.condition = '';
+      newVideoGame.value.image = '';
     }
 
   } catch (error) {
@@ -142,7 +151,7 @@ const removeImagePreview = () => {
       <ion-toolbar color="primary">
         <ion-title color="light">TDS200 Eksamen</ion-title>
         <ion-buttons slot="end">
-          <ion-button type="button" color="tertiary" fill="solid" @click="logout">Logg ut</ion-button>
+          <ion-button type="button" color="tertiary" fill="solid" @click="logout">Logout</ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -171,7 +180,7 @@ const removeImagePreview = () => {
           @did-dismiss="isModalOpen = false">
           <ion-content>
 
-            <ion-grid>
+            <ion-grid class="ion-margin">
               <ion-row v-if="newVideoGame.image">
                 <ion-col>
                   <img :src="newVideoGame.image" />
@@ -199,7 +208,7 @@ const removeImagePreview = () => {
                       <ion-input v-model="newVideoGame.title" type="text"></ion-input>
                     </ion-item>
                     <ion-item>
-                      <ion-label position="floating">Beskriv spillet ditt</ion-label>
+                      <ion-label position="floating">Description</ion-label>
                       <ion-textarea :auto-grow="true" :maxlength="500" v-model="newVideoGame.description"></ion-textarea>
                     </ion-item>
                     <ion-item>
@@ -207,10 +216,10 @@ const removeImagePreview = () => {
                       <ion-input type="number" v-model.number="newVideoGame.price" placeholder="0000"></ion-input>
                     </ion-item>
                     <ion-item>
-                      <ion-select placeholder="Velg plattform" v-model="newVideoGame.platform">
-                        <ion-select-option value="Playstation">Playstation</ion-select-option>
-                        <ion-select-option value="Nintendo">Nintendo</ion-select-option>
-                        <ion-select-option value="Xbox">Xbox</ion-select-option>
+                      <ion-select placeholder="Choose platform" v-model="newVideoGame.platform">
+                        <ion-select-option value="playstation">Playstation</ion-select-option>
+                        <ion-select-option value="nintendo">Nintendo</ion-select-option>
+                        <ion-select-option value="xbox">Xbox</ion-select-option>
                       </ion-select>
                     </ion-item>
                   </ion-list>
@@ -220,19 +229,19 @@ const removeImagePreview = () => {
               <ion-row>
                 <ion-col>
                   <label>
-                    <input type="radio" v-model="newVideoGame.condition" value="New" />
+                    <input type="radio" v-model="newVideoGame.condition" value="new" />
                     Nytt
                   </label>
                 </ion-col>
                 <ion-col>
                   <label>
-                    <input type="radio" v-model="newVideoGame.condition" value="Used" />
+                    <input type="radio" v-model="newVideoGame.condition" value="used" />
                     Brukt
                   </label>
                 </ion-col>
               </ion-row>
 
-              <ion-row>
+              <ion-row class="ion-margin">
                 <ion-col>
                   <ion-button @click="addNewGame">Legg ut ditt spill</ion-button>
                 </ion-col>
@@ -248,5 +257,8 @@ const removeImagePreview = () => {
 <style scoped>
 ion-col {
   text-align: center;
+}
+ion-modal {
+  border-radius: 14px;
 }
 </style>

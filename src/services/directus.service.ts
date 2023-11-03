@@ -1,4 +1,4 @@
-import { Directus } from "@directus/sdk";
+import { Directus, ID } from "@directus/sdk";
 
 export const directus = new Directus("https://video-game-marketplace.directus.app/", {
     auth: {
@@ -29,5 +29,14 @@ export const authService = {
         return await directus.users.me.read({
             fields: ['email', 'first_name']
         });
+    },
+    async deleteGame(gameId: ID) {
+        try {
+            // Use Directus API to delete the game
+            await directus.items('video_games').deleteOne(gameId);
+        } catch (error) {
+            console.error(error);
+            throw error; // Handle the error or propagate it to the calling code
+        }
     }
 };

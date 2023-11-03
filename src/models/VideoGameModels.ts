@@ -10,6 +10,7 @@ export interface IVideoGame {
   };
   user_created: {
     first_name: string;
+    email: string;
   };
   date_created: string;
 }
