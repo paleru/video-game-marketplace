@@ -1,7 +1,7 @@
 # video-game-marketplace
 
 A project I did as part of a school exam/submission, more specifically creating a fictitious video game marketplace that should run as a cross-platform web app for mobile devices.
-It utilizes Vue.js, TS, Ionic and Directus.
+It utilizes Vue.js, TS, Ionic, Directus and Capacitor.
 
 To run locally:
 
