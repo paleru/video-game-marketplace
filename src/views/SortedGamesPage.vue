@@ -54,7 +54,7 @@ const fetchFilteredGames = async () => {
                 <ion-icon slot="icon-only" :icon="home" ></ion-icon>
             </ion-button>
           </ion-buttons>
-          <ion-title size="large">{{ filter }}: {{ value }}</ion-title>
+          <ion-title size="large">{{ value }} games</ion-title>
         </ion-toolbar>
       </ion-header>
   
