@@ -5,13 +5,16 @@ It utilizes Vue.js, TS, Ionic, Directus and Capacitor.
 
 To run locally:
 
+Web:
 - clone project, run 'npm install'
 - project can be viewed either by:
 - running 'ionic serve' and visiting 'http://localhost:8100/' (recommend using web tools to view in mobile format)
   or by emulating to a physical mobile device
 - run 'ionic capacitor run platform --livereload --external' (substitute 'platform' with 'android' or 'ios')
 
-* Deploy to Android (works for both Mac and Windows) Android Studio and approriate SDK's must be installed *
+or:
+
+Deploy to Android (works for both Mac and Windows) Android Studio and approriate SDK's must be installed:
 
 - Build by running 'ionic build'
 - 'npx cap add android'
