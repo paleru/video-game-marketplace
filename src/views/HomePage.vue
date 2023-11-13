@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { directus } from '@/services/directus.service';
-import { IonContent, IonLabel, IonIcon, IonFab, IonFabButton, IonRefresher, IonRefresherContent, IonList, IonChip, IonSelect, IonSelectOption, IonInput, IonTextarea, IonModal, IonItem, IonHeader, IonButton, IonButtons, IonPage, IonTitle, IonToolbar, IonCardHeader, IonCardContent, IonCard, IonCardSubtitle, IonCardTitle, onIonViewDidEnter, IonGrid, IonRow, IonCol } from '@ionic/vue';
+import { IonContent, IonLabel, IonIcon, IonFab, IonFabButton, IonRefresher, IonRefresherContent, IonList, IonSelect, IonSelectOption, IonInput, IonTextarea, IonModal, IonItem, IonHeader, IonButton, IonButtons, IonPage, IonTitle, IonToolbar, onIonViewDidEnter, IonGrid, IonRow, IonCol } from '@ionic/vue';
 import { IVideoGame, IVideoGamesResponse, INewVideoGame } from '@/models/VideoGameModels';
 import { ref } from 'vue';
 import { cameraOutline, trashOutline, add } from 'ionicons/icons';
@@ -212,7 +212,7 @@ const removeImagePreview = () => {
                       <ion-textarea :auto-grow="true" :maxlength="500" v-model="newVideoGame.description"></ion-textarea>
                     </ion-item>
                     <ion-item>
-                      <ion-label>Pris</ion-label>
+                      <ion-label>Price</ion-label>
                       <ion-input type="number" v-model.number="newVideoGame.price" placeholder="0000"></ion-input>
                     </ion-item>
                     <ion-item>

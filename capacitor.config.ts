@@ -5,9 +5,9 @@ const config: CapacitorConfig = {
   appName: 'TDS200_1015',
   webDir: 'dist',
   bundledWebRuntime: false,
-  "server" : {
+   "server" : {
     "url" : "http://localhost:8100/" // Address of the server running locally
-    }
+    } 
 };
 
 

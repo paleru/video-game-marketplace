@@ -56,11 +56,9 @@ const register = async () => {
             </ion-toolbar>
         </ion-header>
 
-        <img class="hero-image" src="assets/video-game-header.png" />
-
-        <ion-content :fullscreen="true">
+        <ion-content :fullscreen="true" color="secondary">
             
-            <ion-list lines="none">
+            <ion-list lines="none" color="secondary">
 
                 <ion-item v-if="inRegisterMode">
                     <ion-label class="label-mild" position="floating">Fornavn</ion-label>
@@ -77,11 +75,11 @@ const register = async () => {
                     <ion-input type="password" v-model="userDetails.password" ></ion-input>
                 </ion-item>
 
-                <ion-button v-if="inRegisterMode" @click="register" class="button-auth" fill="solid" color="dark" size="default">
+                <ion-button v-if="inRegisterMode" @click="register" class="button-auth" fill="solid" size="default">
                     Registrer deg
                 </ion-button>
 
-                <ion-button v-else @click="login" class="button-auth" fill="solid" color="dark" size="default">
+                <ion-button v-else @click="login" class="button-auth" fill="solid" size="default">
                     Logg inn
                 </ion-button>
 
@@ -97,7 +95,7 @@ const register = async () => {
 <style scoped>
 
 ion-content {
-    --ion-background-color: #f4f4f4;
+    --ion-background-color: #fff;
     display: flex;
 }
 

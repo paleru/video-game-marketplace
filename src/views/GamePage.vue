@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IonButton, IonIcon, IonContent, IonHeader, IonLabel, IonItem, IonAvatar, IonPage, IonSpinner, IonTitle, IonToolbar, IonBackButton, IonButtons, IonCard, IonCardSubtitle, IonCardHeader, IonCardContent, onIonViewDidEnter, IonRow, IonCol, IonGrid, toastController } from '@ionic/vue';
+import { IonButton, IonIcon, IonContent, IonHeader, IonLabel, IonItem, IonAvatar, IonPage, IonSpinner, IonTitle, IonToolbar, IonBackButton, IonButtons, onIonViewDidEnter, IonRow, IonCol, IonGrid, toastController } from '@ionic/vue';
 import { useRoute, useRouter } from 'vue-router';
 import { IVideoGame, IVideoGameResponse } from '@/models/VideoGameModels';
 import { ref } from 'vue';
@@ -105,13 +105,13 @@ const formatDate = (isoDate: string | null) => {
         <ion-title v-if="isLoading">
           <ion-spinner></ion-spinner>
         </ion-title>
-        <ion-title v-if="videoGame" color="dark">{{ videoGame.title }}</ion-title>
+        <ion-title v-if="videoGame">{{ videoGame.title }}</ion-title>
       </ion-toolbar>
     </ion-header>
 
-    <ion-content :fullscreen="true" v-if="videoGame && !isLoading">
+    <ion-content :fullscreen="true" v-if="videoGame && !isLoading" color="secondary">
       <video-game-image-vue :image-id="videoGame.image.id" />
-      <ion-item lines="full">
+      <ion-item lines="full" color="secondary">
         <ion-avatar slot="start">
           <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
         </ion-avatar>
