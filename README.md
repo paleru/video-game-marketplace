@@ -1,3 +1,8 @@
+**Note:** The backend for this project was hosted on a free tier of a BaaS (Backend as a Service) called Directus, which has now expired. As a result, the login/create user-features are not operational. 
+
+**Demo Video:** Watch a demonstration of how this project used to work on [Vimeo](https://vimeo.com/manage/videos/893143847).
+
+
 # video-game-marketplace
 
 A project I did as part of a school exam/submission, more specifically creating a fictitious video game marketplace that should run as a cross-platform web app for mobile devices.
